@@ -2,7 +2,12 @@ require 'spec_helper'
 
 describe Post do
   it "title should be automatically titleized before save" do
-    pending
+    post = Post.new(title: "new title", content: "new content")
+    post.save
+    post.title.should eq "New Title"
+    expect {
+
+      }.to equal("New Title")
   end
 
   it "post should be unpublished by default" do

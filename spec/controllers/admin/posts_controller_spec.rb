@@ -28,17 +28,27 @@ describe Admin::PostsController do
       end
     end
 
-    context "#edit" do
+    context "#update" do
+      let!(:new_post) { Post.create({:title => "old title", :content => "old content"})}
+
       it "updates a post with valid params" do
-        pending
+        expect {
+          put :update, :id => new_post.id, post: {:title => "new title"}
+        }.to change {Post.last.title}.to eq("New Title")
       end
       it "doesn't update a post when params are invalid" do
-        pending
+        expect {
+          put :update, :id => new_post.id, post: {}
+        }.to_not change {Post.last.title}.to eq("Old Title")
       end
     end
 
+    let!(:favorite_post) { Post.create({:title => "old title", :content => "old content"})}
     it "#destroy" do
-      pending
+
+      expect {
+        delete :destroy, :id => favorite_post.id #why do we need to have :id...?
+      }.to change(Post, :count).by(-1)
     end
   end
 end
