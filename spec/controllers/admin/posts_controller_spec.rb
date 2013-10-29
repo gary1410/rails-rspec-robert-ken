@@ -4,19 +4,27 @@ describe Admin::PostsController do
   describe "admin panel" do
     it "#index" do
       get :index
+      expect(assigns(:posts)).to eq(Post.all)
       response.status.should eq 200
     end
 
     it "#new" do
-      pending
+      get :index
+      response.status.should eq 200
     end
 
     context "#create" do
       it "creates a post with valid params" do
-        pending
+        expect {
+          post :create, {:post => {:title => "Test Post", :content => "Test post content."}}
+        }.to change(Post, :count).by(1)
+
       end
       it "doesn't create a post when params are invalid" do
-        pending
+         expect {
+          post :create, {:post => {}}
+        }.to_not change(Post, :count)
+
       end
     end
 
