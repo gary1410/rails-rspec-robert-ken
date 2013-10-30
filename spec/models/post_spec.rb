@@ -4,12 +4,14 @@ describe Post do
   it "title should be automatically titleized before save" do
     post = Post.new(title: "new title", content: "new content")
     post.save
-    # post.title.should eq "New Title"
+    # post.title.should eq "New Title"   <-- both ways work!
     expect(post.title).to eq("New Title")
   end
 
   it "post should be unpublished by default" do
-
+    post = Post.new(title: "new title", content: "new content")
+    post.save
+    expect(post.is_published).to eq(false)
   end
 
   # a slug is an automaticaly generated url-friendly
@@ -18,7 +20,7 @@ describe Post do
     post = Post.new
     post.title   = "New post!"
     post.content = "A great story"
-    post.slug.should be_nil
+    post.slug.should be_nil # new-post
     post.save
 
     post.slug.should eq "new-post"
