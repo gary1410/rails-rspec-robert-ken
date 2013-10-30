@@ -8,29 +8,43 @@ describe Admin::PostsController do
     end
 
     it "#new" do
-      pending
+      get :new
+      response.status.should eq 200
     end
 
     context "#create" do
       it "creates a post with valid params" do
-        pending
+        expect{
+          post :create, post: {:title => "Hello", :content => "YOLO"}
+        }.to change(Post,:count).by(1)
       end
       it "doesn't create a post when params are invalid" do
-        pending
+        expect{
+          post :create, post: {:content => "YOLO"}
+        }.to_not change(Post,:count)
       end
     end
 
-    context "#edit" do
+    context "#update" do
+      # let(:post) { Post.create(:title => "Nello", :content => "Chello") }
+      before(:each) do
+        @post = Post.create(:title => "Nello", :content => "Chello")
+      end
       it "updates a post with valid params" do
-        pending
+        put :update, id: @post, post: {:title => "Hello", :content => "Fellow"}
+        expect(@post.reload.title).to eq("Hello")
       end
       it "doesn't update a post when params are invalid" do
-        pending
+        put :update, id: @post, post: {:title => ""}
+        expect(@post.reload.title).to eq("Nello")
       end
     end
 
     it "#destroy" do
-      pending
+       @post = Post.create(:title => "Ryan is Dabomb.com", :content => "Explains why he's dabomb.com")
+      expect {
+        delete :destroy, id: @post
+      }.to change(Post, :count).by(-1)
     end
   end
 end
